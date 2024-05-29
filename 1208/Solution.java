@@ -1,12 +1,16 @@
 class Solution {
 	public int equalSubstring(String s, String t, int maxCost) {
+		int[] arrayOfIndividualCosts = new int[s.length()];
+		for (int i=0; i < s.length(); i++) {
+			arrayOfIndividualCosts[i] = diffInIthCharValues(i, s, t);
+		}
 		int maxLengthSoFar = 0; //length of longest substring yet found
 		outerLoop:
 		for (int hardLeftOfWindow=0; hardLeftOfWindow<s.length(); hardLeftOfWindow++) {//j is starting position of substring
 			int costSoFar = 0; //running total of cost to make substring
 			int lengthSoFar = 0; //length of current substring
 			for (int slidingRightOfWindow=hardLeftOfWindow; slidingRightOfWindow<s.length(); slidingRightOfWindow++) {//i is how far we've moved from j
-				int diff = diffInIthCharValues(slidingRightOfWindow, s, t);
+				int diff = arrayOfIndividualCosts[slidingRightOfWindow];
 				if ((costSoFar+diff) <= maxCost) {//if we can afford it
 					costSoFar += diff; //pay the price
 					lengthSoFar += 1; //and gain length of the subString
